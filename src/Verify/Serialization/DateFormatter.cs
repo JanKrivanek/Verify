@@ -14,7 +14,7 @@
             return value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
         }
 
-        if (value.Second == 0 && value.Millisecond == 0)
+        if (value is {Second: 0, Millisecond: 0})
         {
             return value.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
         }
@@ -42,7 +42,7 @@
             return value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
         }
 
-        if (value.Second == 0 && value.Millisecond == 0)
+        if (value is {Second: 0, Millisecond: 0})
         {
             return value.ToString("yyyy-MM-ddTHH-mm", CultureInfo.InvariantCulture);
         }
@@ -74,7 +74,7 @@
             return value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
         }
 
-        if (value.Second == 0 && value.Millisecond == 0)
+        if (value is {Second: 0, Millisecond: 0})
         {
             return value.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
         }
@@ -106,7 +106,7 @@
             return value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
         }
 
-        if (value.Second == 0 && value.Millisecond == 0)
+        if (value is {Second: 0, Millisecond: 0})
         {
             return value.ToString("yyyy-MM-ddTHH-mm", CultureInfo.InvariantCulture);
         }
@@ -137,10 +137,10 @@
         {
             if (offset.Minutes == 0)
             {
-                return $"-{offset.Hours:0}";
+                return $"{offset.Hours:0}";
             }
 
-            return $"-{offset.Hours:0}-{offset.Minutes:00}";
+            return $"{offset.Hours:0}{offset.Minutes:00}";
         }
 
         return "+0";

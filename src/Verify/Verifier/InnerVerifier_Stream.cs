@@ -1,4 +1,6 @@
-﻿partial class InnerVerifier
+﻿namespace VerifyTests;
+
+partial class InnerVerifier
 {
     public Task<VerifyResult> VerifyStream(FileStream? stream, object? info)
     {
@@ -33,23 +35,35 @@
         return VerifyStream(new MemoryStream(bytes), extension, info);
     }
 
-    public async Task<VerifyResult> VerifyStream(Task<byte[]> task, string extension, object? info)
-    {
-        var bytes = await task;
-        return await VerifyStream(bytes, extension, info);
-    }
+    public async Task<VerifyResult> VerifyStream(Task<byte[]> task, string extension, object? info) =>
+        await VerifyStream(await task, extension, info);
+
+    public async Task<VerifyResult> VerifyStream(ValueTask<byte[]> task, string extension, object? info) =>
+        await VerifyStream(await task, extension, info);
 
     public async Task<VerifyResult> VerifyStream<T>(Task<T> task, string extension, object? info)
-        where T : Stream
-    {
-        var stream = await task;
-        return await VerifyStream(stream, extension, info);
-    }
+        where T : Stream =>
+        await VerifyStream(await task, extension, info);
 
-    public async Task<VerifyResult> VerifyStreams<T>(IEnumerable<T> streams, string extension, object? inf)
+    public async Task<VerifyResult> VerifyStream<T>(ValueTask<T> task, string extension, object? info)
+        where T : Stream =>
+        await VerifyStream(await task, extension, info);
+
+    public async Task<VerifyResult> VerifyStreams<T>(IEnumerable<T> streams, string extension, object? info)
         where T : Stream
     {
-        var targets = streams.Select(_ => new Target(extension, _));
+        var targets = streams.Select(_ => new Target(extension, _))
+            .ToList();
+
+        if (info is not null)
+        {
+            targets.Insert(
+                0,
+                new(
+                    VerifierSettings.TxtOrJson,
+                    JsonFormatter.AsJson(settings, counter, info)));
+        }
+
         return await VerifyInner(targets);
     }
 
@@ -117,6 +131,7 @@
         {
             infos.Add(info);
         }
+
         var targets = new List<Target>();
 
         var queue = new Queue<Target>();

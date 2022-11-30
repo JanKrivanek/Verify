@@ -13,9 +13,51 @@
     public static void DeleteFileIfEmpty(string path)
     {
         var info = new FileInfo(path);
-        if (info.Exists && info.Length == 0)
+        if (info is {Exists: true, Length: 0})
         {
             info.Delete();
+        }
+    }
+
+    public enum RenameConflictResolution
+    {
+        NoAction,
+        Overwrite,
+        Delete
+    }
+
+    public static void RenameFiles(string directory, string pattern, Func<string, string> rename, RenameConflictResolution renameConflictResolution = RenameConflictResolution.NoAction)
+    {
+        if (!Directory.Exists(directory))
+        {
+            return;
+        }
+
+        foreach (var file in Files(directory, pattern))
+        {
+            var newFileName = rename(file);
+
+            if (renameConflictResolution == RenameConflictResolution.Overwrite)
+            {
+                File.Replace(file, newFileName, null);
+                continue;
+            }
+
+            if (!File.Exists(newFileName))
+            {
+                File.Move(file, newFileName);
+                continue;
+            }
+
+            if (renameConflictResolution == RenameConflictResolution.NoAction)
+            {
+                continue;
+            }
+
+            if (renameConflictResolution == RenameConflictResolution.Delete)
+            {
+                DeleteFiles(file);
+            }
         }
     }
 
@@ -116,7 +158,7 @@
         return true;
     }
 
-#if NET461 || NET472 || NET48 || NETSTANDARD2_0
+#if NET462 || NET472 || NET48 || NETSTANDARD2_0
 
     public static Task WriteText(string path, string text)
     {

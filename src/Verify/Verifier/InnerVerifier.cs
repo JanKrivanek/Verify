@@ -1,4 +1,6 @@
-partial class InnerVerifier :
+namespace VerifyTests;
+
+public partial class InnerVerifier :
     IDisposable
 {
     VerifySettings settings;
@@ -64,7 +66,11 @@ partial class InnerVerifier :
             var verifiedDirectory = $"{directoryPrefix}.verified";
             var receivedDirectory = $"{directoryPrefix}.received";
             IoHelpers.CreateDirectory(verifiedDirectory);
-
+            IoHelpers.RenameFiles(
+                verifiedDirectory,
+                "nofilename.*",
+                filePath => filePath.RemoveLast("nofilename"),
+                IoHelpers.RenameConflictResolution.Delete);
             verifiedFiles = IoHelpers.Files(verifiedDirectory, "*");
 
             getFileNames = target =>
@@ -90,6 +96,11 @@ partial class InnerVerifier :
         {
             var subDirectory = Path.Combine(directory, verifiedPrefix);
             IoHelpers.CreateDirectory(subDirectory);
+            IoHelpers.RenameFiles(
+                subDirectory,
+                "nofilename.verified.*",
+                filePath => filePath.RemoveLast("nofilename"),
+                IoHelpers.RenameConflictResolution.Delete);
             verifiedFiles = IoHelpers.Files(subDirectory, "*.verified.*");
 
             getFileNames = target =>

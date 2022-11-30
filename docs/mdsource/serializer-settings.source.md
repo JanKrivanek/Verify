@@ -130,6 +130,13 @@ Or globally use:
 snippet: DontScrubDateTimesGlobal
 
 
+### AddExtraDatetimeFormat
+
+`AddExtraDatetimeFormat` allows specifiying custom date formats to be scrubbed.
+
+snipper: AddExtraDatetimeFormat
+
+
 ## Change defaults at the verification level
 
 `DateTime`, `DateTimeOffset`, `Guid`, `bool`, and empty collection behavior can also be controlled at the verification level: 
@@ -395,6 +402,15 @@ Dictionaries are sorted by key.
 To disable use:
 
 snippet: DontSortDictionaries
+
+
+## Json/JObject sorting
+
+Json and JObject are not sorted.
+
+To enable sorting use:
+
+snippet: SortJsonObjects
 
 
 ## JsonAppender

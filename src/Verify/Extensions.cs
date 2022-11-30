@@ -166,6 +166,18 @@
     public static string Remove(this string value, string toRemove) =>
         value.Replace(toRemove, "");
 
+    public static string RemoveLast(this string value, string pattern)
+    {
+        int place = value.LastIndexOf(pattern, StringComparison.OrdinalIgnoreCase);
+
+        if (place == -1)
+        {
+            return value;
+        }
+
+        return value.Remove(place, pattern.Length);
+    }
+
     public static void ReplaceIfLonger(this StringBuilder builder, string oldValue, string newValue)
     {
         if (builder.Length < oldValue.Length)
@@ -176,7 +188,7 @@
         builder.Replace(oldValue, newValue);
     }
 
-#if NET472 || NET461 || NET48 || NETSTANDARD2_0
+#if NET472 || NET462 || NET48 || NETSTANDARD2_0
     public static bool StartsWith(this string value, char ch)
     {
         if (value.Length == 0)

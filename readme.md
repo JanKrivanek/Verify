@@ -497,6 +497,10 @@ Snapshot changes do not trigger a major version change to avoid causing [Diamond
 
 ## Media
 
+ * [Unit testing assertions are now easier than ever with Verify Snapshot tool - 
+Rana Krishnrajsinh (20 October 2022)](https://www.youtube.com/watch?v=T1ZPGi_dHFM)
+ * [The easiest way to Unit Test with Verify in C# - 
+Tomasz Juszczak (6 September 2022)](https://prographers.com/blog/the-easiest-way-to-unit-test-with-verify-in-c)
  * [Testing C# code reliably by freezing it in time - 
 Nick Chapsas (1 August 2022)](https://www.youtube.com/watch?v=Q1_YkcPwpqY)
  * [Snapshot Testing in .NET with Verify - Dan Clarke (21 July 2022)](https://www.youtube.com/watch?v=wA7oJDyvn4c&t=1s)
@@ -541,6 +545,7 @@ Nick Chapsas (1 August 2022)](https://www.youtube.com/watch?v=Q1_YkcPwpqY)
  * [Verify.Quibble](https://github.com/VerifyTests/Verify.Quibble): Comparison of objects via [Quibble](https://github.com/nrkno/Quibble).
  * [Verify.QuestPDF](https://github.com/VerifyTests/Verify.QuestPDF): Verification of pdf documents via [QuestPDF](https://www.questpdf.com/).
  * [Verify.RavenDb](https://github.com/VerifyTests/Verify.RavenDb): Verification of [RavenDb](https://ravendb.net) bits.
+ * [Verify.Serilog](https://github.com/VerifyTests/Verify.Serilog): Verification of Serilog bits.
  * [Verify.SqlServer](https://github.com/VerifyTests/Verify.SqlServer): Verification of SqlServer bits.
  * [Verify.SourceGenerators](https://github.com/VerifyTests/Verify.SourceGenerators): Verification of C# Source Generators.
  * [Verify.SystemJson](https://github.com/VerifyTests/Verify.SystemJson): Support for converting System.Text.Json types.

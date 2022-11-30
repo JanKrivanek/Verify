@@ -41,6 +41,22 @@ public class SerializationTests
             });
     }
 
+    #region AddExtraDatetimeFormat
+
+    [ModuleInitializer]
+    public static void UseAddExtraDatetimeFormat() =>
+        VerifierSettings.AddExtraDatetimeFormat("yyyy-MM-dd");
+
+    [Fact]
+    public Task WithExtraDatetimeFormat() =>
+        Verify(
+            new
+            {
+                date = "2022-11-08"
+            });
+
+    #endregion
+
 #if NET5_0_OR_GREATER || net48
     [Fact]
     public Task ValueTasks()
@@ -1059,9 +1075,10 @@ line3"
 
         #endregion
     }
-#if NET6_0
 
-      [Fact]
+#if NET6_0_OR_GREATER
+
+    [Fact]
     public Task DatetimeScrubbingDisabled() =>
         Verify(
                 new
@@ -1854,10 +1871,13 @@ Line2"
     public Task TargetInvocationException()
     {
         var member = GetType().GetMethod("MethodThatThrows")!;
-        return Throws(() =>
-        {
-            member.Invoke(null, Array.Empty<object>());
-        });
+        return Throws(
+                () =>
+                {
+                    member.Invoke(null, Array.Empty<object>());
+                })
+            .UniqueForTargetFrameworkAndVersion()
+            .ScrubLinesContaining("(Object ");
     }
 
     [Fact]
@@ -1874,10 +1894,12 @@ Line2"
             exception = e;
         }
 
-        return Verify(new
-        {
-            exception
-        });
+        return Verify(
+                new
+                {
+                    exception
+                })
+            .UniqueForTargetFrameworkAndVersion();
     }
 
     public static void MethodThatThrows() =>
