@@ -1,4 +1,4 @@
-﻿[UsesVerify]
+[UsesVerify]
 public class Tests
 {
     [Theory]
